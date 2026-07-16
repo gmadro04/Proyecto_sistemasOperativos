@@ -6,7 +6,7 @@ El objetivo principal es evaluar el rendimiento de el planificador de Linux sobr
 
 ## Estructura del Repositorio
 
-* `/src/qupa_experiment_node.py`: Contiene el nodo de ROS 2 que ejecuta la Máquina de Estados Finitos (FSM) del robot. Este código gestiona el control que ejecuta el robot durante los experimentos. Depende de llamadas periódicas configuradas a 5.0 Hz para actualizar la cinemática y respuesta del robot en base a los sensores IR y la cámara.
+* `/code/qupa_experiment_node.py`: Contiene el nodo de ROS 2 que ejecuta la Máquina de Estados Finitos (FSM) del robot. Este código gestiona el control que ejecuta el robot durante los experimentos. Depende de llamadas periódicas configuradas a 5.0 Hz para actualizar la cinemática y respuesta del robot en base a los sensores IR y la cámara.
 * `/sim/jitter_simulator.py`: Script de modelado estocástico (Synthetic workload modeling). Dado que actualmente la investigación se encuentra en fase de validación, este script emula las penalizaciones por cambio de contexto (context-switch) a nivel de kernel utilizando distribuciones empíricas de hardware ARM.
 * `/assets/`: Contiene las salidas gráficas de la prueba de concepto implemenada en el *jitter_simulator.py*.
 

@@ -26,7 +26,7 @@ Al ejecutar el modelado sintético de la carga de trabajo, comparamos el comport
 * **Traza Verde (Planificador SCHED_FIFO):** Al emular el aislamiento de CPU y priorizar el proceso crítico, la latencia de cola desaparece. El *jitter* se reduce un 95.2% (0.85 ms), garantizando la ejecución estricta del lazo de control sobre los 200 ms ideales.
 
 ## Requisitos 
-Para generar los datos y la gráfica localmente:
+Para generar los datos sinteticos y la gráfica localmente:
 
 ```bash
 # Instalar dependencias para el simulador
@@ -34,3 +34,17 @@ pip install numpy pandas matplotlib
 
 # Ejecutar la simulación
 python sim/jitter_simulator.py
+```
+## Analisis de primeras pruebas
+
+Se recolectaron datos en 2 pruebas realizadas con un robot físico. Estas pruebas fueron tomadas en experimentos a partir de la ejecusión del software de control (FMS) del robot. 
+
+![Datos recolectados](assets/analisis_exploratorio_cfs.png)
+
+1. Traza de ejecución continua. 
+La gráfica izquierda muestra la latencia a lo largo de 3000 ticks del control del robot. Aquí se representan los datos como puntos de dispersión donde se puede destacar lo siguiente en estas pruebas. 
+* Se observa que algunos ciclos se logran completar sobre un rango idea alrededor de los 200 ms. Esto se puede explicar que hace referencia al incio del experimento donde el robot no usa todas las funcionalidades al tiempo, es decir puede corresonder a condiciones de baja concurrencia, por lo que el planificador CFS es capaz de soportar los subprocesos del robot adecuadamente.
+* Hay algo que llama la atención en los picos de latencia. Donde se traducen en retrasos, alrededor de los ciclos 400-500 y 1300-1500. Adicionalmente, existen picos por encima de los 300 ms. Esto puede hacer referencia o mostrar evidencia de momentos donde existen retrasos y el proceso del controlador del robot sufre afectaciones, lo que corresponde a partes en la FMS donde el robot hace uso de todas sus funcionalidades al tiempo en  hardware.
+
+2. Distribución de frecuencias. 
+La gráfica derecha pretende medir el impacto estadístico de estas latencias mediante un histograma de densidad. Lo que esta distribución presenta es una asimetría hacia la derecha tail latency que puede sustentar la sospecha anteriormente dicha donde la máquina de estados finitos (FSM) del robot esta presentando retrasos, procesa datos del pasado impidiendo ver lo que sucede en el instante.
